@@ -10,7 +10,7 @@ pipeline {
 
         stage ('Create Venv') {
             steps {
-                sh 'python -m venv venv'
+                sh 'python3 -m venv venv'
             }
         }
 
