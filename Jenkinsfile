@@ -2,30 +2,22 @@ pipeline {
     agent any
 
     stages {
-        stage ('Checkout') {
+
+        stage('Checkout') {
             steps {
                 checkout scm
             }
         }
 
-        stage ('Create Venv') {
-            steps {
-                sh 'python3 -m venv venv'
-            }
-        }
-
-        stage('Install Dependencies') {
+        stage('Run Tests (Docker)') {
             steps {
                 sh '''
-                ./venv/bin/pip install --upgrade pip
-                ./venv/bin/pip install -r requirements.txt
+                docker run --rm \
+                    -v $WORKSPACE:/app \
+                    -w /app \
+                    python:3.10-slim \
+                    bash -c "pip install -r requirements.txt && PYTHONPATH=. pytest"
                 '''
-            }
-        }
-
-        stage('Run Tests') {
-             steps {
-                sh 'PYTHONPATH=. pytest'
             }
         }
     }
