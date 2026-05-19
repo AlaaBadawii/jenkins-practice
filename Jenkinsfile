@@ -2,9 +2,21 @@ pipeline {
     agent any
 
     stages {
-        stage('Test') {
+        stage ('Checkout') {
             steps {
-                sh 'echo Hello from Jenkinsfile'
+                checkout scm
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'pip install -r requirements.txt'
+            }
+        }
+
+        stage('Run Tests') {
+             steps {
+                sh 'PYTHONPATH=. pytest'
             }
         }
     }
