@@ -8,9 +8,18 @@ pipeline {
             }
         }
 
+        stage ('Create Venv') {
+            steps {
+                sh 'python -m venv venv'
+            }
+        }
+
         stage('Install Dependencies') {
             steps {
-                sh 'pip install -r requirements.txt'
+                sh '''
+                ./venv/bin/pip install --upgrade pip
+                ./venv/bin/pip install -r requirements.txt
+                '''
             }
         }
 
