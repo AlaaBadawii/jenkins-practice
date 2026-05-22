@@ -33,7 +33,7 @@ jobs:
           ls -R
 
       - name: Set Python path
-        run: echo "PYTHONPATH=$PWD" >> $GITHUB_ENV
+        run: echo "PYTHONPATH=$PWD:$PWD/src:$PWD/app" >> $GITHUB_ENV
 
       - name: Run tests
         run: |
